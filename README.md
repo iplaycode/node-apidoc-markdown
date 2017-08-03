@@ -2,6 +2,10 @@
 
 Generate API documentation in markdown from [apidoc](https://github.com/apidoc/apidoc) data.
 
+[![Build Status](https://travis-ci.org/hjue/node-apidoc-markdown.svg?branch=master)](https://travis-ci.org/hjue/node-apidoc-markdown)
+[![dependencies Status](https://david-dm.org/hjue/node-apidoc-markdown/status.svg)](https://david-dm.org/hjue/node-apidoc-markdown)
+[![npm version](https://badge.fury.io/js/apidocjs-markdown.svg)](https://badge.fury.io/js/apidocjs-markdown)
+
 ## Installation
 
 	npm install apidocjs-markdown
