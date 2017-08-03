@@ -4,6 +4,8 @@
   "description": "Generate API documentation in markdown format from apidoc data.",
   "main": "index.js",
   "scripts": {
+    "test": "npm run jshint",
+    "jshint": "jshint index.js",
     "release": "release-it -n -i patch",
     "release:minor": "release-it -n -i minor",
     "release:major": "release-it -n -i major"
