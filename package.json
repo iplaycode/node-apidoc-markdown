@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run jshint",
+    "example":"node index.js -p examples -o examples/example.md",
     "jshint": "jshint index.js",
     "release": "release-it -n -i patch",
     "release:minor": "release-it -n -i minor",
