@@ -7,7 +7,7 @@ var fs = require('fs'),
 	_ = require('underscore');
 
 var argv = require('optimist')
-	.usage('Generate documentation from apidoc data.\nUsage: apidoc-markdown -p [path] -o [output file]')
+	.usage('Generate documentation from apidoc data.\nUsage: apidoc-markdown2 -p [path] -o [output file]')
 	.demand(['path', 'output'])
 	.alias({
 		'path': 'p',
@@ -27,6 +27,17 @@ ejs.filters.undef = function (obj) {
 
 ejs.filters.mlink = function (obj) {
 	return (obj || '').toLowerCase().replace(/\s/g, '-');
+};
+
+ejs.filters.strip = function (obj) {
+    return (obj || '').replace(/<[^>]*>/g, '');
+};
+
+ejs.filters.padding = function (obj) {
+	var parts = (obj || '').split('.');
+	var padding = new Array(parts.length - 1).fill('&nbsp;&nbsp;&nbsp;').join('');
+
+	return [padding, parts[parts.length - 1]].join('');
 };
 
 var tmplFile = argv.template ? argv.template : __dirname + '/templates/default.md',
@@ -49,11 +60,30 @@ Object.keys(apiByGroup).forEach(function (key) {
 	});
 });
 
+function createApiSorter(order) {
+	return function sort(name) {
+		var idx = order.indexOf(name);
+		if (idx === -1) return Infinity;
+		return idx;
+	}
+}
+
+var sorter = createApiSorter(projData.order || []);
+
+var groupOrder = _.sortBy(Object.keys(apiByGroup), sorter);
+
+var nameOrderInGroup = {};
+Object.keys(apiByGroupAndName).forEach(function (group) {
+	nameOrderInGroup[group] = _.sortBy(Object.keys(apiByGroupAndName[group]), sorter);
+});
+
 var data = {
 	project: projData,
-	data: apiByGroupAndName
+	data: apiByGroupAndName,
+	groupOrder: groupOrder,
+	nameOrder: nameOrderInGroup
 };
 
 data.prepend = argv.prepend ? fs.readFileSync(argv.prepend).toString() : null;
 fs.writeFileSync(argv.output, template(data));
-console.log('Wrote apidoc-markdown template output to: ' + argv.output);
+console.log('Wrote apidoc-markdown2 template output to: ' + argv.output);
