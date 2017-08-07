@@ -109,6 +109,26 @@ _Allowed values: <%- param.allowedValues %>_<% } %>|
 <% }); //forech field -%>
 <% } //if success.fields -%>
 
+
+<% if (data[group][sub][0].error && data[group][sub][0].error.fields) { -%>
+<% Object.keys(data[group][sub][0].error.fields).forEach(function(g) { -%>
+### <%= g %>
+
+| Name     | Type       | Description                           |
+|:---------|:-----------|:--------------------------------------|
+<% data[group][sub][0].error.fields[g].forEach(function (param) { -%>
+| <%- param.field %> | <%- param.type %> | <%- param.optional ? '**optional**' : '' %><%- param.description -%>
+<% if (param.defaultValue) { -%>
+_Default value: <%- param.defaultValue %>_<br><% } -%>
+<% if (param.size) { -%>
+_Size range: <%- param.size -%>_<br><% } -%>
+<% if (param.allowedValues) { -%>
+_Allowed values: <%- param.allowedValues %>_<% } %>|
+<% }); //forech (group) parameter -%>
+<% }); //forech field -%>
+<% } //if error.fields -%>
+
+
 <% if (data[group][sub][0].error && data[group][sub][0].error.examples && data[group][sub][0].error.examples.length) { -%>
 ### Error Response
 
