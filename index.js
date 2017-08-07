@@ -63,9 +63,11 @@ Object.keys(apiByGroup).forEach(function (key) {
 function createApiSorter(order) {
 	return function sort(name) {
 		var idx = order.indexOf(name);
-		if (idx === -1) return Infinity;
+		if (idx === -1) {
+			return Infinity;
+		}
 		return idx;
-	}
+	};
 }
 
 var sorter = createApiSorter(projData.order || []);
