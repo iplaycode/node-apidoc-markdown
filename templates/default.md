@@ -31,7 +31,9 @@
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 <% data[group][sub][0].header.fields.Header.forEach(function (header) { -%>
-| <%- header.field %> | <%- header.type %> | <%- header.optional ? '**optional**' : '' %><%- header.description %>|
+| <%- header.field %> | <%- header.type %> | <%- header.optional ? '**optional**' : '' %><%- header.description -%>
+<% if (header.allowedValues) { -%>
+Allowed values: <%- header.allowedValues %><% } %> |
 <% }); //forech parameter -%>
 <% } //if parameters -%>
 
